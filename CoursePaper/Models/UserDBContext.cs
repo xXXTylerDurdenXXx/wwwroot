@@ -3,7 +3,7 @@
     using Microsoft.EntityFrameworkCore;
     public class UserDBContext : DbContext
     {
-        DbSet<User> _users;
+        DbSet<User> Users { get; set; }
 
         public UserDBContext(DbContextOptions<UserDBContext> options) :  base(options) { }
     }
