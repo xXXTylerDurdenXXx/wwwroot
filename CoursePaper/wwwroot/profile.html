@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Профиль — Чистый город</title>
+  <link rel="stylesheet" href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" />
+  <link rel="stylesheet" href="profile.css" />
+</head>
+<body>
+
+  <div class="profile-container">
+    <h1>Профиль пользователя</h1>
+
+    <div class="avatar-container">
+      <img id="avatarPreview" src="Resources/avatar.png" alt="" />
+      <label for="avatarInput" class="upload-btn">
+        <i class='bx bx-upload'></i> Загрузить фото
+      </label>
+      <input type="file" id="avatarInput" accept="image/*" hidden>
+    </div>
+
+    <div class="user-info">
+      <p><strong>Имя:</strong> Алина Петрова</p>
+      <p><strong>Email:</strong> alina@example.com</p>
+      
+    </div>
+
+    <button class="btn">Редактировать профиль</button>
+  </div>
+
+  
+  <div class="bottom-nav">
+    <a href="notifications.html" class="nav-item"><i class='bx bx-map'></i></a>
+    <a href="home.html" class="nav-item"><i class='bx bx-home'></i></a>
+
+    <div class="center-btn">
+      <a href="favorites.html"><i class='bx bx-star'></i></a>
+    </div>
+
+    <a href="settings.html" class="nav-item"><i class='bx bx-cog'></i></a>
+    <a href="profile.html" class="nav-item active"><i class='bx bx-user'></i></a>
+  </div>
+
+  <script>
+    
+    const input = document.getElementById("avatarInput");
+    const preview = document.getElementById("avatarPreview");
+
+    input.addEventListener("change", () => {
+      const file = input.files[0];
+      if (file) {
+        preview.src = URL.createObjectURL(file);
+      }
+    });
+  </script>
+
+</body>
+</html>

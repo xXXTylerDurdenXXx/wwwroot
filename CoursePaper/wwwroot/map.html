@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Карта — Чистый город</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" />
+</head>
+<body>
+    <div class="map-container">
+    <div id="map"></div>
+    <div class="bottom-nav">
+      
+      <a href="profile.html" class="nav-item"><i class='bx bx-user'></i></a>
+      <div class="center-btn">
+        <a href="map.html" class="nav-item active"><i class='bx bx-map'></i></a>
+      </div>
+       <a href="settings.html" class="nav-item"><i class='bx bx-cog'></i></a>
+      <a href="favorites.html" class="nav-item"><i class='bx bx-star'></i></a>
+     
+    </div>
+  </div>
+
+    <script src="https://api-maps.yandex.ru/2.1/?lang=ru_RU"></script>
+<script>
+  ymaps.ready(init);
+  function init() {
+    var map = new ymaps.Map("map", {
+      center: [51.7682, 55.0968], 
+      zoom: 13
+    });
+
+   
+    var placemark = new ymaps.Placemark([51.7682, 55.0968], {
+      balloonContent: 'Пункт приёма мусора'
+    });
+    map.geoObjects.add(placemark);
+  }
+</script>
+
+</body>
+</html>
