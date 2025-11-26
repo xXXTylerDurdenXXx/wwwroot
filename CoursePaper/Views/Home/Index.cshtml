@@ -1,0 +1,18 @@
+
+@{
+    
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Главная";
+}
+<div class="container">
+    <h1>Добро пожаловать</h1>
+    <p class="subtitle">Чистый город</p>
+
+    <img src="~/Resources/robot.png" alt="Робот" class="robot" />
+    <img src="~/Resources/recycling.png" alt="Урна" class="recycling" />
+
+    <div class="buttons">
+         <a asp-page="/Login" class="btn">Авторизация</a>
+        <a asp-page="/Register" class="btn">Регистрация</a> 
+    </div>
+</div>
