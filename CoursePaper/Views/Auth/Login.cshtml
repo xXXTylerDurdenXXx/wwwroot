@@ -1,0 +1,28 @@
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Авторизация";
+}
+
+<div class="container">
+    <h1>С возвращением</h1>
+
+    <form method="post" asp-action="Login">
+        <div class="input-group">
+            <img src="~/Resources/mail.png" alt="Почта" />
+            <input type="email"
+                   name="Email"
+                   placeholder="Введите электронную почту"
+                   required />
+        </div>
+
+        <div class="input-group">
+            <img src="~/Resources/key.png" alt="Пароль" />
+            <input type="password"
+                   name="Password"
+                   placeholder="Введите пароль"
+                   required />
+        </div>
+
+        <button class="btn" type="submit">Войти</button>
+    </form>
+</div>

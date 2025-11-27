@@ -1,0 +1,45 @@
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Регистрация";
+}
+
+<div class="container">
+    <h1>Рады приветствовать!</h1>
+
+    <form method="post" asp-action="Register">
+        <div class="input-group">
+            <img src="~/Resources/user.png" alt="Имя пользователя" />
+            <input type="text"
+                   asp-for="UserName"
+                   placeholder="Введите имя пользователя"
+                   required />
+            <span asp-validation-for="UserName" class="text-danger"></span>
+        </div>
+
+        <div class="input-group">
+            <img src="~/Resources/mail.png" alt="Почта" />
+            <input type="email"
+                   asp-for="Email"
+                   placeholder="Введите электронную почту"
+                   required />
+            <span asp-validation-for="Email" class="text-danger"></span>
+        </div>
+
+        <div class="input-group">
+            <img src="~/Resources/key.png" alt="Пароль" />
+            <input type="password"
+                   asp-for="Password"
+                   placeholder="Введите пароль"
+                   required />
+            <span asp-validation-for="Password" class="text-danger"></span>
+        </div>
+
+        <div class="form-links">
+            <a asp-action="Login" asp-controller="Auth" class="register-link">
+                У вас уже есть аккаунт?
+            </a>
+        </div>
+
+        <button class="btn" type="submit">Зарегистрироваться</button>
+    </form>
+</div>
