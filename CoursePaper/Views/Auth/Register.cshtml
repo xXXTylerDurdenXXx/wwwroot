@@ -3,17 +3,19 @@
     ViewData["Title"] = "Регистрация";
 }
 
+
 <div class="container">
     <h1>Рады приветствовать!</h1>
 
-    <form method="post" asp-action="Register">
+    <form asp-action="Register" method="post">
+        @Html.AntiForgeryToken()
         <div class="input-group">
             <img src="~/Resources/user.png" alt="Имя пользователя" />
             <input type="text"
-                   asp-for="UserName"
+                   asp-for="Username"
                    placeholder="Введите имя пользователя"
                    required />
-            <span asp-validation-for="UserName" class="text-danger"></span>
+            <span asp-validation-for="Username" class="text-danger"></span>
         </div>
 
         <div class="input-group">

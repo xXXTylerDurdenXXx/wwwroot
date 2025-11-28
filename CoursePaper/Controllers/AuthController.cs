@@ -1,9 +1,22 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using CoursePaper.Service;
+using Microsoft.AspNetCore.Mvc;
+using CoursePaper.Models;
+using CoursePaper.Models.DTO;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace CoursePaper.Controllers
 {
     public class AuthController : Controller
     {
+        private readonly IAuthService _authService;
+        private readonly ILogger<AuthController> _logger;
+
+        public AuthController(IAuthService userService, ILogger<AuthController> logger)
+        {
+            _authService = userService;
+            _logger = logger;
+        }
+
         [HttpGet]
         public IActionResult Login()
         {
@@ -11,9 +24,19 @@ namespace CoursePaper.Controllers
         }
 
         [HttpPost]
-        public IActionResult Login(string email, string password)
+        [ValidateAntiForgeryToken]
+        public IActionResult Login(LoginRequest request)
         {
-            // TODO: логика проверки пользователя
+            if (!ModelState.IsValid) 
+                return View(request);
+            var result = _authService.Login(request);
+
+            if (!result.Success)
+            {
+                ModelState.AddModelError("", result.ErrorMessage);
+                return View(request);
+            }
+            HttpContext.Session.SetString("AccessToken", result.Token);
 
             return RedirectToAction("Index", "Home");
         }
@@ -26,20 +49,43 @@ namespace CoursePaper.Controllers
 
         
         [HttpPost]
-        public IActionResult Register(string name, string email, string password)
+        [ValidateAntiForgeryToken]
+        public IActionResult Register(CreateUserRequest request)
         {
-            if (ModelState.IsValid)
+            var username = Request.Form["Username"];
+            var email = Request.Form["Email"];
+            var password = Request.Form["Password"];
+
+            return Content($"Username={username}; Email={email}; Password={password}");
+            if (!ModelState.IsValid)
             {
-                // регистрация пользователя
+                var errors = string.Join("; ", ModelState.Values
+                    .SelectMany(v => v.Errors)
+                    .Select(e => e.ErrorMessage));
+                return BadRequest(errors);
+
+
             }
-            return RedirectToAction("Register", "Auth");
+            
+
+            var result = _authService.Register(request);
+
+            if (!result.Success)
+            {
+                ModelState.AddModelError("", result.ErrorMessage);
+                return View(request);
+            }
+
+            HttpContext.Session.SetString("AccessToken", result.Token);
+
+            return RedirectToAction("Index", "Home");
         }
 
         
         [HttpPost]
         public IActionResult Logout()
         {
-            // выход пользователя
+             HttpContext.Session.Remove("AccessToken");
             return RedirectToAction("Login");
         }
     }
