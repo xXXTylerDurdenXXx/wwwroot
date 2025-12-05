@@ -59,6 +59,8 @@ namespace CoursePaper
             options.UseNpgsql(builder.Configuration.GetConnectionString("PostgreConnection")));
             
             builder.Services.AddScoped<IUserRepository, UserRepository>();
+            builder.Services.AddScoped<IMarkerRepository, MarkerRepository>();
+            builder.Services.AddScoped<IMarkerService, MarkerService>();
             builder.Services.AddScoped<IAuthService, AuthService>();
             var app = builder.Build();
 

@@ -39,12 +39,51 @@
                 zoom: 13
             });
 
-            var placemark = new ymaps.Placemark(
-                [51.7682, 55.0968],
-                { balloonContent: 'Пункт приёма мусора' }
-            );
+            // var placemark = new ymaps.Placemark(
+            //     [51.7682, 55.0968],
+            //     { balloonContent: 'Пункт приёма мусора' }
+            // );
 
-            map.geoObjects.add(placemark);
+            
+
+            map.events.add('dblclick', function(e){
+                var coords = e.get('coords');
+                var placemark = new ymaps.Placemark(coords,{
+                    balloonContent: ''
+                });
+                map.geoObjects.add(placemark);
+
+                saveMarkers(coords[0],coords[1])
+            });
+
+            loadMarkers(map);
+        }
+
+        function loadMarkers(map) {
+            fetch('/Map/GetMarkers')
+                .then(r => r.json())
+                .then(markers => {
+                    markers.forEach(m => {
+                        let pm = new ymaps.Placemark([m.latitude, m.longitude],{
+                            balloonContent: ''
+                        });
+                        map.geoObjects.add(pm);
+                    });
+                });
+            
+        }
+        function saveMarkers(lat,lng){
+            fetch('/Map/AddMarker',{
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    latitude: lat,
+                    longitude: lng
+                })
+            })
+            .then(r => r.json())
+            .then(d => console.log("Сохранено:", d))
+            .catch(e => console.error(e));
         }
     </script>
 }

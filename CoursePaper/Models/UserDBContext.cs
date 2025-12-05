@@ -4,6 +4,7 @@
     public class UserDBContext : DbContext
     {
         public DbSet<User> Users { get; set; }
+        public DbSet<Marker> Markers { get; set; }
 
         public UserDBContext(DbContextOptions<UserDBContext> options) :  base(options) { }
     }
