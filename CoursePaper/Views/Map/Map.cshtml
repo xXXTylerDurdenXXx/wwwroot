@@ -1,0 +1,50 @@
+@{
+    ViewData["Title"] = "Карта — Чистый город";
+    Layout = "~/Views/Shared/_Layout.cshtml"; 
+}
+
+<div class="map-container">
+    <div id="map"></div>
+
+    <div class="bottom-nav">
+        <a asp-controller="Profile" asp-action="Index" class="nav-item">
+            <i class='bx bx-user'></i>
+        </a>
+
+        <div class="center-btn">
+            <a asp-controller="Map" asp-action="Index" class="nav-item active">
+                <i class='bx bx-map'></i>
+            </a>
+        </div>
+
+        <a asp-controller="Settings" asp-action="Index" class="nav-item">
+            <i class='bx bx-cog'></i>
+        </a>
+
+        <a asp-controller="Favorites" asp-action="Index" class="nav-item">
+            <i class='bx bx-star'></i>
+        </a>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="https://api-maps.yandex.ru/2.1/?lang=ru_RU"></script>
+
+    <script>
+        ymaps.ready(init);
+
+        function init() {
+            var map = new ymaps.Map("map", {
+                center: [51.7682, 55.0968],
+                zoom: 13
+            });
+
+            var placemark = new ymaps.Placemark(
+                [51.7682, 55.0968],
+                { balloonContent: 'Пункт приёма мусора' }
+            );
+
+            map.geoObjects.add(placemark);
+        }
+    </script>
+}

@@ -5,7 +5,9 @@
 }
 
 <div class="container">
-    <h1>С возвращением</h1>
+    <h1>Добро пожаловать</h1>
+    <p class="subtitle">Чистый город</p>
+   
 
     <form asp-action="Login" method="post">
         @Html.AntiForgeryToken()
@@ -25,6 +27,10 @@
                    required />
         </div>
 
-        <button class="btn" type="submit">Войти</button>
+        <div class="buttons">
+            <button class="btn" type="submit">Войти</button>
+            <a asp-controller="Auth" asp-action="Register" class="btn">Регистрация</a>
+        </div>
+        
     </form>
 </div>

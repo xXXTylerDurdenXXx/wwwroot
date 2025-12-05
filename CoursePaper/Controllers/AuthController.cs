@@ -42,7 +42,7 @@ namespace CoursePaper.Controllers
             HttpContext.Session.SetString("AccessToken", result.Token);
 
             
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Index", "Map");
         }
 
         [HttpGet]
