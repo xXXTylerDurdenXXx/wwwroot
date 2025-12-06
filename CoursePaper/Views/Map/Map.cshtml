@@ -39,13 +39,6 @@
                 zoom: 13
             });
 
-            // var placemark = new ymaps.Placemark(
-            //     [51.7682, 55.0968],
-            //     { balloonContent: 'Пункт приёма мусора' }
-            // );
-
-            
-
             map.events.add('dblclick', function(e){
                 var coords = e.get('coords');
                 var placemark = new ymaps.Placemark(coords,{
@@ -57,6 +50,20 @@
             });
 
             loadMarkers(map);
+
+            map.events.add("contextmenu", function(e){
+                let placemark = e.get('target');
+
+                if(!(placemark instanceof ymaps.Placemark))
+                return;
+              
+                if(confirm("Удалить метку?")){
+
+                    deleteMarker(placemark.id, placemark);
+                    
+                }
+            });
+            
         }
 
         function loadMarkers(map) {
@@ -66,6 +73,13 @@
                     markers.forEach(m => {
                         let pm = new ymaps.Placemark([m.latitude, m.longitude],{
                             balloonContent: ''
+                        });
+                        pm.markerId = m.id;
+
+                        pm.events.add("contextmenu", function(){
+                            if(confirm("Удалить метку?")){
+                                deleteMarker(pm.markerId, pm)
+                            }
                         });
                         map.geoObjects.add(pm);
                     });
@@ -84,6 +98,20 @@
             .then(r => r.json())
             .then(d => console.log("Сохранено:", d))
             .catch(e => console.error(e));
+        }
+        function deleteMarker(id,placemark){
+            fetch('/Map/DeleteMarker/' + id, {
+                method: 'DELETE'
+                })
+                .then(r => r.json())
+                .then(res => {
+                    if(res.success){
+                        placemark.getMap().geoObjects.remove(placemark);
+                        console.log("Удаленно");
+                    }
+                })
+                .catch(e => console.error(e));
+            
         }
     </script>
 }

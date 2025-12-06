@@ -40,5 +40,11 @@ namespace CoursePaper.Controllers
                 return BadRequest(new { error = ex.Message });
             }
         }
+        [HttpDelete]
+        public IActionResult DeleteMarker(int id)
+        {
+            var result = _markerService.DeleteMarker(id);
+            return Ok(new {success = result });
+        }
     }
 }
