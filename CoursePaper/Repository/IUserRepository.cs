@@ -7,7 +7,8 @@ namespace CoursePaper.Repository
         User GetUserById(int id);
         User AddUser(User user);
         bool DeleteUser(int id);
-        User UpdateUser(int id, User user);
+        User UpdateUser( User user);
+        User GetByEmail(string email);
         User ExistUser(string loginOrEmail);
 
     }

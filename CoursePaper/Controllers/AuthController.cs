@@ -10,11 +10,13 @@ namespace CoursePaper.Controllers
     {
         private readonly IAuthService _authService;
         private readonly ILogger<AuthController> _logger;
+        private readonly IPasswordResetService _passwordResetService;
 
-        public AuthController(IAuthService userService, ILogger<AuthController> logger)
+        public AuthController(IAuthService userService, ILogger<AuthController> logger, IPasswordResetService passwordResetService)
         {
             _authService = userService;
             _logger = logger;
+            _passwordResetService = passwordResetService;
         }
 
         [HttpGet]
@@ -87,6 +89,26 @@ namespace CoursePaper.Controllers
         {
              HttpContext.Session.Remove("AccessToken");
             return RedirectToAction("Login");
+        }
+
+        [HttpGet]
+        public IActionResult ForgotPassword()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ForgotPassword(string email)
+        {
+            bool result = await _passwordResetService.ResetPasswordAsync(email);
+
+            if (!result)
+            {
+                ModelState.AddModelError("", "Пользователь с таким email не найден");
+                return View();
+            }
+            ViewBag.Message = "Новый пароль отправлен вам на email)";
+            return View();
         }
     }
 }

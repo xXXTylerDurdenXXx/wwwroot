@@ -51,10 +51,15 @@ namespace CoursePaper.Repository
             else return null;
         }
 
-        public User UpdateUser(int id, User user)
+        public User GetByEmail(string email)
+        {
+            var user = _context.Users.FirstOrDefault(u => u.Email == email);
+            return user;
+        }
+        public User UpdateUser( User user)
         {
             var userr = _context.Users.FirstOrDefault(u =>
-            u.Id == id);
+            u.Id == user.Id);
             if (userr != null)
             {
                 _context.Users.Update(user);
