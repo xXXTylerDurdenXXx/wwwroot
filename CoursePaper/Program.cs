@@ -27,12 +27,19 @@ namespace CoursePaper
                 options.Cookie.HttpOnly = true;
                 options.Cookie.IsEssential = true;
             });
-            builder.Services.AddAuthentication(opt =>
+            builder.Services.AddAuthentication(options =>
             {
-                opt.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                opt.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultScheme = "Cookies";
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+               
 
             })
+                .AddCookie("Cookies", options =>
+                {
+                    options.LoginPath = "/Auth/Login";
+                    options.AccessDeniedPath = "/Auth/AccessDenied";
+                    options.ExpireTimeSpan = TimeSpan.FromHours(1);
+                })
                .AddJwtBearer(opt =>
                {
                    opt.RequireHttpsMetadata = false;
@@ -64,6 +71,12 @@ namespace CoursePaper
             builder.Services.AddScoped<IEmailService, EmailServices>();
             builder.Services.AddScoped<IMarkerService, MarkerService>();
             builder.Services.AddScoped<IAuthService, AuthService>();
+           
+
+            builder.Services.AddAuthorization(options =>
+            {
+                options.AddPolicy("AdminOnly", policy => policy.RequireRole("Admin"));
+            });
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
@@ -73,12 +86,13 @@ namespace CoursePaper
                 //app.UseSwaggerUI();
             }
 
+           
             app.UseHttpsRedirection();
 
             app.UseDefaultFiles();
             app.UseStaticFiles();
             app.UseAuthentication();
-            
+            app.UseAuthorization();
 
 
 

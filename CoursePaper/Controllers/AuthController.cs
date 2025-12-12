@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Mvc;
 using CoursePaper.Models;
 using CoursePaper.Models.DTO;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Authentication;
 
 namespace CoursePaper.Controllers
 {
@@ -27,7 +29,7 @@ namespace CoursePaper.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Login(LoginRequest request)
+        public async Task<IActionResult> Login(LoginRequest request)
         {
             if (!ModelState.IsValid) 
                 return View(request);
@@ -38,12 +40,19 @@ namespace CoursePaper.Controllers
                 ModelState.AddModelError("", result.ErrorMessage);
                 return View(request);
             }
-         
 
+            var claims = new List<Claim>
+            {
+                 new Claim(ClaimTypes.NameIdentifier, result.User.Id.ToString()),
+                 new Claim(ClaimTypes.Email, result.User.Email),
+            };
+            var identity = new ClaimsIdentity(claims, "Cookies");
+            var principal = new ClaimsPrincipal(identity);
+
+            await HttpContext.SignInAsync("Cookies", principal);
             _logger.LogInformation("Пользователь {Email} успешно прошёл аутентификацию.", request.Email);
             HttpContext.Session.SetString("AccessToken", result.Token);
 
-            
             return RedirectToAction("Index", "Map");
         }
 

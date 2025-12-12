@@ -31,15 +31,20 @@
     <script src="https://api-maps.yandex.ru/2.1/?lang=ru_RU"></script>
 
     <script>
+       
         ymaps.ready(init);
-
+       
+        
         function init() {
+            
             var map = new ymaps.Map("map", {
                 center: [51.7682, 55.0968],
                 zoom: 13
-            });
 
+            });
+            
             map.events.add('dblclick', function(e){
+                
                 var coords = e.get('coords');
                 var placemark = new ymaps.Placemark(coords,{
                     balloonContent: ''
@@ -53,7 +58,7 @@
 
             map.events.add("contextmenu", function(e){
                 let placemark = e.get('target');
-
+                
                 if(!(placemark instanceof ymaps.Placemark))
                 return;
               

@@ -99,7 +99,9 @@ namespace CoursePaper.Service
                         Email = createUserRequest.Email,
                         PasswordHash = GetHashPassword(createUserRequest.Password),
                         CreatedAt = DateTime.UtcNow,
-                        IsActive = true
+                        IsActive = true,
+                        RoleId = 1
+
                     };
 
                     var addedUser = _userRepository.AddUser(newUser);
@@ -158,6 +160,7 @@ namespace CoursePaper.Service
         {
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes(_jwtSett.SecretKey);
+            var roleName = user.Role?.Name ?? "User";
 
             var claims = new List<Claim>
             {
@@ -165,7 +168,7 @@ namespace CoursePaper.Service
                 new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
                 new Claim(ClaimTypes.Name, user.Name),
                 new Claim(ClaimTypes.Email, user.Email),
-                
+                new Claim(ClaimTypes.Role, roleName),
             };
 
             var tokenDescriptor = new SecurityTokenDescriptor
