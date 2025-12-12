@@ -31,6 +31,20 @@ namespace CoursePaper.Repository
             else return false;
         }
 
+        public User AddScoreUser(User user, int score)
+        {
+            var userr = _context.Users.FirstOrDefault(u =>
+            u.Id == user.Id);
+            if (userr != null)
+            {
+                user.Score += score;
+                _context.Users.Update(user);
+                _context.SaveChanges();
+            }
+            return user;
+        }
+       
+
         public User ExistUser(string loginOrEmail)
         {
             var user = _context.Users
@@ -62,6 +76,32 @@ namespace CoursePaper.Repository
             u.Id == user.Id);
             if (userr != null)
             {
+                _context.Users.Update(user);
+                _context.SaveChanges();
+            }
+            return user;
+        }
+
+        User RemoveScoreUser(User user)
+        {
+            var userr = _context.Users.FirstOrDefault(u =>
+            u.Id == user.Id);
+            if (userr != null)
+            {
+                user.Score = 0;
+                _context.Users.Update(user);
+                _context.SaveChanges();
+            }
+            return user;
+        }
+
+        User IUserRepository.RemoveScoreUser(User user)
+        {
+            var userr = _context.Users.FirstOrDefault(u =>
+             u.Id == user.Id);
+            if (userr != null)
+            {
+                user.Score = 0;
                 _context.Users.Update(user);
                 _context.SaveChanges();
             }
