@@ -37,9 +37,9 @@ namespace CoursePaper.Repository
             u.Id == user.Id);
             if (userr != null)
             {
-                user.Score += score;
-                _context.Users.Update(user);
+                userr.Score += score;
                 _context.SaveChanges();
+                return userr;
             }
             return user;
         }
@@ -48,18 +48,18 @@ namespace CoursePaper.Repository
         public User ExistUser(string loginOrEmail)
         {
             var user = _context.Users
-            .FirstOrDefault(u =>
-                u.Email == loginOrEmail
-                );
-                
+               .FirstOrDefault(u => u.Email == loginOrEmail);
+
 
             return user;
         }
 
         public User GetUserById(int id)
         {
-            var user = _context.Users.FirstOrDefault(u =>
-          u.Id == id);
+            var user = _context.Users
+                .Include(u => u.Role)
+                .FirstOrDefault(u =>
+                  u.Id == id);
             if (user != null)
                 return user;
             else return null;
@@ -67,7 +67,9 @@ namespace CoursePaper.Repository
 
         public User GetByEmail(string email)
         {
-            var user = _context.Users.FirstOrDefault(u => u.Email == email);
+            var user = _context.Users
+                .Include(u => u.Role)
+                .FirstOrDefault(u => u.Email == email);
             return user;
         }
         public User UpdateUser( User user)

@@ -27,7 +27,7 @@ namespace CoursePaper.Service
         {
             try
             {
-                var user = _userRepository.ExistUser(loginRequest.Email);
+                var user = _userRepository.GetByEmail(loginRequest.Email);
                 if (user == null)
                     return new AuthResponse
                     {
@@ -56,7 +56,9 @@ namespace CoursePaper.Service
                         User = new UserDTO
                         {
                             Id = user.Id,
-                            Email = user.Email
+                            Email = user.Email,
+                            RoleName = user.Role?.Name ?? "User"
+
                         }
                     };
                 }
@@ -116,7 +118,8 @@ namespace CoursePaper.Service
                         User = new UserDTO
                         {
                             Id = addedUser.Id,
-                            Email = addedUser.Email
+                            Email = addedUser.Email,
+                            RoleName = addedUser.Role?.Name ?? "User"
                         }
                     };
                 }

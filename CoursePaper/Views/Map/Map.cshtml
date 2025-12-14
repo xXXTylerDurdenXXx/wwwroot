@@ -33,7 +33,8 @@
     <script>
        
         ymaps.ready(init);
-       
+        const isAdmin = @Json.Serialize(User.IsInRole("Admin"));
+        
         
         function init() {
             
@@ -44,7 +45,8 @@
             });
             
             map.events.add('dblclick', function(e){
-                
+                if (!isAdmin) return;
+
                 var coords = e.get('coords');
                 var placemark = new ymaps.Placemark(coords,{
                     balloonContent: ''
@@ -56,18 +58,18 @@
 
             loadMarkers(map);
 
-            map.events.add("contextmenu", function(e){
-                let placemark = e.get('target');
+            // map.events.add("contextmenu", function(e){
+            //     let placemark = e.get('target');
                 
-                if(!(placemark instanceof ymaps.Placemark))
-                return;
+            //     if(!(placemark instanceof ymaps.Placemark))
+            //     return;
               
-                if(confirm("Удалить метку?")){
+            //     if(confirm("Удалить метку?")){
 
-                    deleteMarker(placemark.id, placemark);
+            //         deleteMarker(placemark.id, placemark);
                     
-                }
-            });
+            //     }
+            // });
             
         }
 
@@ -81,13 +83,17 @@
                         });
                         pm.markerId = m.id;
 
-                        pm.events.add("contextmenu", function(){
-                            if(confirm("Удалить метку?")){
-                                deleteMarker(pm.markerId, pm)
-                            }
-                        });
+                        if (isAdmin) {
+                            pm.events.add("contextmenu", function () {
+                                if (confirm("Удалить метку?")) {
+                                    deleteMarker(pm.markerId, pm);
+                                }
+                            });
+                        }
                         map.geoObjects.add(pm);
+                        
                     });
+
                 });
             
         }

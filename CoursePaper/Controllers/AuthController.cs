@@ -40,11 +40,12 @@ namespace CoursePaper.Controllers
                 ModelState.AddModelError("", result.ErrorMessage);
                 return View(request);
             }
-
+            Console.WriteLine($"RoleName: {result.User.RoleName}");
             var claims = new List<Claim>
             {
                  new Claim(ClaimTypes.NameIdentifier, result.User.Id.ToString()),
                  new Claim(ClaimTypes.Email, result.User.Email),
+                 new Claim(ClaimTypes.Role, result.User.RoleName)
             };
             var identity = new ClaimsIdentity(claims, "Cookies");
             var principal = new ClaimsPrincipal(identity);
