@@ -1,0 +1,58 @@
+@{
+    ViewData["Title"] = "Таблица лидеров";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/leaders.css" asp-append-version="true" />
+}
+
+
+<link rel="stylesheet" href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" />
+
+<div class="leaderboard">
+    <h1>Таблица лидеров</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Пользователь</th>
+                <th>Баллы</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach(var user in Model)
+            {
+                <tr>
+                    <td>@user.Name</td>
+                    <td>@user.Score</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<div class="bottom-nav">
+    <a asp-controller="Map" asp-action="Index" class="nav-item">
+        <i class='bx bx-map'></i>
+    </a>
+
+    <a asp-controller="Home" asp-action="Index" class="nav-item">
+        <i class='bx bx-home'></i>
+    </a>
+
+    <div class="center-btn">
+        <a asp-controller="Leaderboard" asp-action="Index">
+            <i class='bx bx-star'></i>
+        </a>
+    </div>
+
+    <a asp-controller="Settings" asp-action="Index" class="nav-item">
+        <i class='bx bx-cog'></i>
+    </a>
+
+    <a asp-controller="Profile" asp-action="Index" class="nav-item">
+        <i class='bx bx-user'></i>
+    </a>
+</div>
+

@@ -67,10 +67,12 @@ namespace CoursePaper
             
             builder.Services.AddScoped<IUserRepository, UserRepository>();
             builder.Services.AddScoped<IMarkerRepository, MarkerRepository>();
+            builder.Services.AddScoped<ILeaderBoardRepository, LeaderBoardRepository>();
             builder.Services.AddScoped<IPasswordResetService, PasswordResetService>();
             builder.Services.AddScoped<IEmailService, EmailServices>();
             builder.Services.AddScoped<IMarkerService, MarkerService>();
             builder.Services.AddScoped<IAuthService, AuthService>();
+            builder.Services.AddScoped<ILeaderBoardService, LeaderBoardService>();
            
 
             builder.Services.AddAuthorization(options =>
