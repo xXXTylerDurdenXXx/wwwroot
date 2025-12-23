@@ -1,18 +1,22 @@
 body {
-  background-color: #e8f0f3;
-  font-family: 'Inter', sans-serif;
-  margin: 0;
-  padding-bottom: 90px;
+    background-color: #e8f0f3;
+    font-family: 'Inter', sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh; 
 }
 
 .profile-container {
-  max-width: 800px;
-  margin: 40px auto;
-  background: #f3f9fb;
-  border: 2px solid #0077c8;
-  border-radius: 15px;
-  padding: 30px;
-  text-align: center;
+    background-color: #f3f9fb;
+    border: 2px solid #0077c8;
+    border-radius: 15px;
+    padding: 40px;
+    text-align: center;
+    width: 400px; 
+    box-shadow: 0 0 20px rgba(0,0,0,0.1);
 }
 
 h1 {
@@ -29,25 +33,20 @@ h1 {
 }
 
 .avatar-container img {
-  width: 150px;
-  height: 150px;
-  border-radius: 50%;
-  object-fit: cover;
-  border: 3px solid #1e90ff;
-  margin-bottom: 10px;
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid #1e90ff;
 }
 
 .upload-btn {
-  background-color: #1e90ff;
-  color: white;
-  padding: 8px 15px;
-  border-radius: 20px;
-  font-size: 14px;
-  cursor: pointer;
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
-  transition: background-color 0.3s;
+    margin-top: 10px;
+    background-color: #1e90ff;
+    color: white;
+    padding: 8px 15px;
+    border-radius: 20px;
+    cursor: pointer;
 }
 
 .upload-btn:hover {

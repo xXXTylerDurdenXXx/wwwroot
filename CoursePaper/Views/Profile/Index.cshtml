@@ -1,0 +1,66 @@
+@model CoursePaper.Models.DTO.UserProfileDTO
+
+@{
+    ViewData["Title"] = "Профиль пользователя";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/profile.css" asp-append-version="true" />
+    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" />
+}
+
+<div class="profile-container">
+    <h1>Профиль пользователя</h1>
+
+    <div class="avatar-container">
+        <img id="avatarPreview"
+             src="@Url.Content(Model.AvatarPath ?? "/images/default-avatar.png")"
+             alt="Аватар" />
+        <form asp-action="UploadAvatar" asp-controller="Profile" method="post" enctype="multipart/form-data">
+            @Html.AntiForgeryToken()
+            <label for="avatarInput" class="upload-btn">
+                <i class='bx bx-upload'></i> Загрузить фото
+            </label>
+            <input type="file" id="avatarInput" name="avatar" accept="image/*" hidden onchange="this.form.submit()" />
+        </form>
+    </div>
+
+    <form asp-action="Update" asp-controller="Profile" method="post">
+        @Html.AntiForgeryToken()
+        <div class="user-info">
+            <label>
+                <strong>Имя:</strong>
+                <input type="text" name="Name" value="@Model.Name" required />
+            </label>
+            <p><strong>Email:</strong> @Model.Email</p>
+            <p><strong>Баллы:</strong> @Model.Score</p>
+        </div>
+
+        <button type="submit" class="btn">Сохранить изменения</button>
+    </form>
+</div>
+
+<div class="bottom-nav">
+    <a asp-controller="Map" asp-action="Index" class="nav-item"><i class='bx bx-map'></i></a>
+    
+    <div class="center-btn">
+        <a asp-controller="Leaderboard" asp-action="Index"><i class='bx bx-star'></i></a>
+    </div>
+    <a asp-controller="Settings" asp-action="Index" class="nav-item"><i class='bx bx-cog'></i></a>
+    <a asp-controller="Profile" asp-action="Index" class="nav-item active"><i class='bx bx-user'></i></a>
+</div>
+
+@section Scripts {
+<script>
+    const input = document.getElementById("avatarInput");
+    const preview = document.getElementById("avatarPreview");
+
+    input.addEventListener("change", () => {
+        const file = input.files[0];
+        if (file) {
+            preview.src = URL.createObjectURL(file);
+        }
+    });
+</script>
+}

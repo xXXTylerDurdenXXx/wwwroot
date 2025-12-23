@@ -65,6 +65,7 @@ namespace CoursePaper
             builder.Services.AddDbContext<UserDBContext>(options =>
             options.UseNpgsql(builder.Configuration.GetConnectionString("PostgreConnection")));
             
+            
             builder.Services.AddScoped<IUserRepository, UserRepository>();
             builder.Services.AddScoped<IMarkerRepository, MarkerRepository>();
             builder.Services.AddScoped<ILeaderBoardRepository, LeaderBoardRepository>();
@@ -73,6 +74,7 @@ namespace CoursePaper
             builder.Services.AddScoped<IMarkerService, MarkerService>();
             builder.Services.AddScoped<IAuthService, AuthService>();
             builder.Services.AddScoped<ILeaderBoardService, LeaderBoardService>();
+            builder.Services.AddScoped<IProfileService, ProfileService>();
            
 
             builder.Services.AddAuthorization(options =>

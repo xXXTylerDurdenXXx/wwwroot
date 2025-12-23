@@ -42,4 +42,8 @@
     <None Include="Views\_ViewImports.cshtml" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Views\Profile\" />
+  </ItemGroup>
+
 </Project>
