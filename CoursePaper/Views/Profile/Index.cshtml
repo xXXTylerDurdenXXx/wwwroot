@@ -17,17 +17,17 @@
         <img id="avatarPreview"
              src="@Url.Content(Model.AvatarPath ?? "/images/default-avatar.png")"
              alt="Аватар" />
-        <form asp-action="UploadAvatar" asp-controller="Profile" method="post" enctype="multipart/form-data">
+        <form asp-action="UploadAvatar" asp-controller="Profile" method="post" enctype="multipart/form-data" id="avatarForm">
             @Html.AntiForgeryToken()
             <label for="avatarInput" class="upload-btn">
                 <i class='bx bx-upload'></i> Загрузить фото
             </label>
-            <input type="file" id="avatarInput" name="avatar" accept="image/*" hidden onchange="this.form.submit()" />
+            <input type="file" id="avatarInput" name="avatar" accept="image/*" hidden />
         </form>
     </div>
 
     <form asp-action="Update" asp-controller="Profile" method="post">
-        @Html.AntiForgeryToken()
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
         <div class="user-info">
             <label>
                 <strong>Имя:</strong>
@@ -52,15 +52,25 @@
 </div>
 
 @section Scripts {
-<script>
-    const input = document.getElementById("avatarInput");
-    const preview = document.getElementById("avatarPreview");
+    <script>
+        const input = document.getElementById("avatarInput");
+        const preview = document.getElementById("avatarPreview");
+        const form = document.getElementById("avatarForm");
 
-    input.addEventListener("change", () => {
-        const file = input.files[0];
-        if (file) {
-            preview.src = URL.createObjectURL(file);
-        }
-    });
-</script>
+        input.addEventListener("change", function () {
+            if (this.files && this.files[0]) {
+                const file = this.files[0];
+
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    preview.src = e.target.result;
+                };
+                reader.readAsDataURL(file);
+
+                console.log("Файл выбран, отправка формы...");
+                
+                form.submit();
+            }
+        });
+    </script>
 }

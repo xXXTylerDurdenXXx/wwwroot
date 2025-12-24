@@ -27,17 +27,19 @@ namespace CoursePaper.Controllers
 
         [Authorize]
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public IActionResult Update(UpdateProfileDTO dto)
         {
+            int userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
             if (!ModelState.IsValid)
             {
-                return View("Index", dto);
+                ModelState.Clear();
+                var profile = _profileService.GetProfile(userId);
+                profile.Name = dto.Name;
+                
+                return View("Index", profile);
             }
 
-            int userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
             _profileService.UpdateProfile(userId, dto);
-
             return RedirectToAction("Index");
         }
 
@@ -50,9 +52,19 @@ namespace CoursePaper.Controllers
                 return BadRequest("Файл не выбран");
 
             int userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+            var currentProfile = _profileService.GetProfile(userId);
 
-            
-            string uploadsFolder = Path.Combine(_environment.WebRootPath, "uploads", "avatars");
+            if (!string.IsNullOrEmpty(currentProfile.AvatarPath) && !currentProfile.AvatarPath.Contains("default-avatar.png"))
+            {
+                string oldFilePath = Path.Combine(_environment.WebRootPath, currentProfile.AvatarPath.TrimStart('/'));
+
+                if (System.IO.File.Exists(oldFilePath))
+                {
+                    System.IO.File.Delete(oldFilePath);
+                }
+            }
+
+                string uploadsFolder = Path.Combine(_environment.WebRootPath, "uploads", "avatars");
             if (!Directory.Exists(uploadsFolder))
                 Directory.CreateDirectory(uploadsFolder);
 

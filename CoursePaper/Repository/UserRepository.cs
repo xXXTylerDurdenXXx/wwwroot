@@ -58,6 +58,7 @@ namespace CoursePaper.Repository
         {
             var user = _context.Users
                 .Include(u => u.Role)
+                .AsNoTracking()
                 .FirstOrDefault(u =>
                   u.Id == id);
             if (user != null)
@@ -74,14 +75,18 @@ namespace CoursePaper.Repository
         }
         public User UpdateUser( User user)
         {
-            var userr = _context.Users.FirstOrDefault(u =>
-            u.Id == user.Id);
-            if (userr != null)
+            var existingUser = _context.Users.FirstOrDefault(u => u.Id == user.Id);
+
+            if (existingUser != null)
             {
-                _context.Users.Update(user);
+                existingUser.Name = user.Name;
+                existingUser.AvatarPath = user.AvatarPath;
+                existingUser.Score = user.Score;
+
                 _context.SaveChanges();
             }
-            return user;
+
+            return existingUser ?? user;
         }
 
         User RemoveScoreUser(User user)
@@ -96,7 +101,7 @@ namespace CoursePaper.Repository
             }
             return user;
         }
-
+        public void SaveChanges() { _context.SaveChanges(); }
         User IUserRepository.RemoveScoreUser(User user)
         {
             var userr = _context.Users.FirstOrDefault(u =>

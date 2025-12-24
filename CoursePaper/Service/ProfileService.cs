@@ -19,6 +19,7 @@ namespace CoursePaper.Service
             var user = _userRepository.GetUserById(userId);
             return new UserProfileDTO
             {
+                Id = userId,
                 Name = user.Name,
                 Email = user.Email,
                 AvatarPath = user.AvatarPath,

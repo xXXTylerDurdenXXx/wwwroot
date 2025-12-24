@@ -3,5 +3,6 @@
     public class UpdateProfileDTO
     {
         public string Name { get; set; }
+        
     }
 }

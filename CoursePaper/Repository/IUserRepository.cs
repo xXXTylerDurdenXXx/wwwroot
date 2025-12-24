@@ -12,6 +12,6 @@ namespace CoursePaper.Repository
         User UpdateUser( User user);
         User GetByEmail(string email);
         User ExistUser(string loginOrEmail);
-
+        void SaveChanges();
     }
 }
